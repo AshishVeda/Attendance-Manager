@@ -1,0 +1,66 @@
+<% include ./partials/header %>
+<style>
+  #box {
+    border: 2px solid black;
+    margin: 5px;
+    padding: 10px;
+    font-size: 30px;
+  }
+  #card {
+    margin: 10px;
+  }
+  #subtitle {
+    color: red;
+  }
+  #subtitle1 {
+    color: #f77e80;
+  }
+  #subtitle2 {
+    color: green;
+  }
+  #con {
+    margin-top: 15px;
+  }
+</style>
+<div class="container" id="con">
+  <div class="jumbotron">
+    <h2>ADD SUBJECT</h2>
+    <button class="btn btn-success btn-sm">
+      <a href="/new" style="color:white;">ADD</a>
+    </button>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <% for(var i=0;i< sub.length ;i++){%> <%
+    if(sub[i].student.id.equals(currentUser._id)){ %>
+    <div class="col-lg-4">
+      <div class="container" id="card">
+        <a href="/index/<%=currentUser._id%>/show/<%= sub[i]._id%>">
+          <div class="card" style="width: 18rem ">
+            <div class="card-body">
+              <h5 class="card-title"><%=sub[i].subject %></h5>
+              <% if((sub[i].attended/sub[i].total)*100< 75 ){ %>
+              <h6 class="card-subtitle mb-2 " id="subtitle" style="color:red">
+                <%= ((sub[i].attended/sub[i].total)*100).toFixed(2)%>%
+              </h6>
+              <% } else if((sub[i].attended/sub[i].total)*100>=75 &&
+              ((sub[i].attended/sub[i].total)*100)< 80 ){%>
+              <h6 class="card-subtitle mb-2 " id="subtitle1">
+                <%= ((sub[i].attended/sub[i].total)*100).toFixed(2)%>%
+              </h6>
+              <% } else{%>
+              <h6 class="card-subtitle mb-2 " id="subtitle2">
+                <%= ((sub[i].attended/sub[i].total)*100).toFixed(2)%>%
+              </h6>
+              <% } %>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <% } %> <% } %>
+  </div>
+</div>
+
+<% include ./partials/footer %>

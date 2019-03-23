@@ -1,0 +1,133 @@
+<% include ./partials/header %>
+
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script> -->
+<style>
+  #today {
+    margin-top: 100px;
+  }
+  #back {
+    margin-top: 15px;
+  }
+  a {
+    color: white;
+  }
+  a:hover {
+    color: white;
+  }
+</style>
+<div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="container">
+        <form
+          action="/index/<%=currentUser._id%>/show/<%=sub._id%>?_method=PUT"
+          method="POST"
+        >
+          <div class="form-group">
+            <p>Enter total number of classes :</p>
+            <input type="number" name="total" value="<%=sub.total%>" />
+          </div>
+          <div class="form-group">
+            <p>Enter number of classes you have attended :</p>
+            <input type="number" name="att" value="<%=sub.attended%>" />
+          </div>
+          <button class="btn btn-primary ">Submit</button>
+          <hr />
+          <p>Today's class:</p>
+          <label class="radio-inline">
+            Present :
+            <input type="radio" value="Present" name="pre" id="true" /> </label
+          >&nbsp;&nbsp;
+          <label class="radio-inline">
+            Absent :
+            <input type="radio" value="Absent" name="pre" id="false" />
+          </label>
+          <br />
+          <button class="btn btn-primary btn-sm" style="margin-top: 5px">
+            Done
+          </button>
+        </form>
+
+        <button class="btn btn-success" id="back">
+          <a href="/index/currentUser._id">go back</a>
+        </button>
+        <p id="sel" style="display:none"><%= sub.attended %></p>
+        <p id="cri" style="display:none"><%=sub.percent%></p>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <p id="se" style="display:none"><%= sub.total%></p>
+      <h3>Your Attendance :</h3>
+      <h4 id="per"></h4>
+      <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+      <h5 id="select"></h5>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var atten = document.querySelector("#sel").innerHTML;
+  var total = document.querySelector("#se").innerHTML;
+  var per = (atten / total) * 100;
+  var percent = document.querySelector("#cri").innerHTML,
+    temp1 = atten,
+    temp2 = total,
+    i = 0;
+
+  if (per < percent) {
+    while (1) {
+      i++;
+      temp1++;
+      temp2++;
+      var temp3 = (temp1 / temp2) * 100;
+      if (temp3 >= percent) {
+        document.querySelector("#select").innerHTML =
+          "You need to attend " + i + " classes";
+        break;
+      }
+    }
+  }
+  //document.querySelector("#select").innerHTML=per;
+  if (per >= percent) {
+    var j = 0;
+    (temp1 = atten), (temp2 = total);
+    while (1) {
+      j++;
+      temp2++;
+      var temp3 = (temp1 / temp2) * 100;
+      if (temp3 < percent && j == 1) {
+        document.querySelector("#select").innerHTML = "You are on track";
+      }
+      if (temp3 > percent) {
+        document.querySelector("#select").innerHTML =
+          "You may leave " + j + " classes";
+      } else {
+        break;
+      }
+    }
+  }
+
+  document.querySelector("#per").innerHTML = per.toFixed(2) + "%";
+  window.onload = function() {
+    var chart = new CanvasJS.Chart("chartContainer", {
+      title: {
+        text: "Attendance"
+      },
+      data: [
+        {
+          type: "doughnut",
+          dataPoints: [
+            { y: per, indexLabel: "Attended", color: "green" },
+            { y: 100 - per, indexLabel: "Absent", color: "red" }
+          ]
+        }
+      ]
+    });
+
+    chart.render();
+  };
+</script>
+<script
+  type="text/javascript"
+  src="https://canvasjs.com/assets/script/canvasjs.min.js"
+></script>
+<% include ./partials/footer %>

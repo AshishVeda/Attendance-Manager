@@ -1,0 +1,44 @@
+<% include ./partials/header %>
+<style>
+  h2 {
+    margin-left: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  form {
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+  .container {
+    width: 40%;
+  }
+  a {
+    margin-left: 20px;
+  }
+</style>
+<div class="container">
+  <h2>Add Subject</h2>
+  <form action="/new" method="POST">
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="text"
+        name="subject"
+        placeholder="Subject Name"
+      />
+    </div>
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="number"
+        name="per"
+        placeholder="Attendance criteria"
+      />
+    </div>
+    <div class="form-group">
+      <button class="form-control btn-block btn-primary">Submit</button>
+    </div>
+  </form>
+  <a href="/index/<%=currentUser._id%>">go back</a>
+</div>
+<% include ./partials/footer %>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bunk Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <style>
+      nav {
+        color: white;
+      }
+    </style>
+  </head>
+  <body style="background: #a9c5f2">
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-primary"
+      style="color:white"
+    >
+      <a class="navbar-brand" href="/">AttendanceManager</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="ml-auto">
+        <ul class=" navbar-nav">
+          <% if(!currentUser){ %>
+          <a href="/login" class="nav-link" class="navbar-right"
+            ><li>Login&nbsp;</li></a
+          >
+
+          <a href="/" class="nav-link"><li>SignUp</li></a>
+          <%} else {%>
+          <a href="/ind" class="nav-link"
+            >Signed in as <%=currentUser.username%></a
+          >
+          <a href="/logout" class="nav-link"><li>Logout</li></a>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
+  </body>
+</html>
